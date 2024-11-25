@@ -38,7 +38,7 @@ class RolController extends Controller
     public function store(Request $request)
     {
         try {
-            return $this->create($request->all());
+            Rol::create($request->all());
             return response()->json([
                 'status' => true,
                 'message' => "Rol creado correctamente"

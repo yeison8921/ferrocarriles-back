@@ -38,11 +38,11 @@ class DirectorioController extends Controller
     public function store(Request $request)
     {
         try {
-            return $this->create($request->all());
-            // return response()->json([
-            //     'status' => true,
-            //     'message' => "Año creado correctamente"
-            // ], 200);
+            Directorio::create($request->all());
+            return response()->json([
+                'status' => true,
+                'message' => "Directorio creado correctamente"
+            ], 200);
         } catch (\Exception $e) {
             return response()->json([
                 'status' => false,
@@ -81,7 +81,11 @@ class DirectorioController extends Controller
     public function update(Request $request, string $id)
     {
         try {
-            return $this->update($request, $id);
+            Directorio::find($id)->update($request->all());
+            return response()->json([
+                'status' => true,
+                'message' => "Directorio actualizado correctamente"
+            ], 200);
         } catch (\Exception $e) {
             return response()->json([
                 'status' => false,

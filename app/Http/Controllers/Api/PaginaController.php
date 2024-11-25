@@ -38,11 +38,11 @@ class PaginaController extends Controller
     public function store(Request $request)
     {
         try {
-            return $this->create($request->all());
-            // return response()->json([
-            //     'status' => true,
-            //     'message' => "Año creado correctamente"
-            // ], 200);
+            Pagina::create($request->all());
+            return response()->json([
+                'status' => true,
+                'message' => "Página creada correctamente"
+            ], 200);
         } catch (\Exception $e) {
             return response()->json([
                 'status' => false,

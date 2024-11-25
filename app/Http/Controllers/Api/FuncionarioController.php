@@ -38,11 +38,11 @@ class FuncionarioController extends Controller
     public function store(Request $request)
     {
         try {
-            return $this->create($request->all());
-            // return response()->json([
-            //     'status' => true,
-            //     'message' => "Año creado correctamente"
-            // ], 200);
+            Funcionario::create($request->all());
+            return response()->json([
+                'status' => true,
+                'message' => "Funcionario creado correctamente"
+            ], 200);
         } catch (\Exception $e) {
             return response()->json([
                 'status' => false,
@@ -81,7 +81,11 @@ class FuncionarioController extends Controller
     public function update(Request $request, string $id)
     {
         try {
-            return $this->update($request, $id);
+            Funcionario::find($id)->update($request->all());
+            return response()->json([
+                'status' => true,
+                'message' => "Funcionario actualizado correctamente"
+            ], 200);
         } catch (\Exception $e) {
             return response()->json([
                 'status' => false,
@@ -98,6 +102,10 @@ class FuncionarioController extends Controller
         try {
             $record = Funcionario::find($id);
             $record->delete();
+            return response()->json([
+                'status' => true,
+                'message' => "Funcionario eliminado correctamente"
+            ], 200);
         } catch (\Exception $e) {
             return response()->json([
                 'status' => false,

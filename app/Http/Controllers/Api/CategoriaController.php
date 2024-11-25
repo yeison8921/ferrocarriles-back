@@ -38,11 +38,11 @@ class CategoriaController extends Controller
     public function store(Request $request)
     {
         try {
-            return $this->create($request->all());
-            // return response()->json([
-            //     'status' => true,
-            //     'message' => "Año creado correctamente"
-            // ], 200);
+            Categoria::create($request->all());
+            return response()->json([
+                'status' => true,
+                'message' => "Categoría creada correctamente"
+            ], 200);
         } catch (\Exception $e) {
             return response()->json([
                 'status' => false,

@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\Area\StoreAreaRequest;
-use App\Http\Requests\Api\Area\UpdateAreaRequest;
+use App\Http\Controllers\Requests\Api\Area\StoreAreaRequest;
+use App\Http\Controllers\Requests\Api\Area\UpdateAreaRequest;
 use App\Models\Area;
 use Illuminate\Http\Request;
 
@@ -40,11 +40,11 @@ class AreaController extends Controller
     public function store(StoreAreaRequest $request)
     {
         try {
-            return $this->create($request->all());
-            // return response()->json([
-            //     'status' => true,
-            //     'message' => "Año creado correctamente"
-            // ], 200);
+            Area::create($request->all());
+            return response()->json([
+                'status' => true,
+                'message' => "Área creada correctamente"
+            ], 200);
         } catch (\Exception $e) {
             return response()->json([
                 'status' => false,
@@ -83,7 +83,11 @@ class AreaController extends Controller
     public function update(UpdateAreaRequest $request, string $id)
     {
         try {
-            return $this->update($request, $id);
+            Area::find($id)->update($request->all());
+            return response()->json([
+                'status' => true,
+                'message' => "Área actualizada correctamente"
+            ], 200);
         } catch (\Exception $e) {
             return response()->json([
                 'status' => false,
@@ -100,6 +104,10 @@ class AreaController extends Controller
         try {
             $record = Area::find($id);
             $record->delete();
+            return response()->json([
+                'status' => true,
+                'message' => "Área eliminada correctamente"
+            ], 200);
         } catch (\Exception $e) {
             return response()->json([
                 'status' => false,

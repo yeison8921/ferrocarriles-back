@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\Seccion\StoreSeccionRequest;
-use App\Http\Requests\Api\Seccion\UpdateSeccionRequest;
+use App\Http\Controllers\Requests\Api\Seccion\StoreSeccionRequest as SeccionStoreSeccionRequest;
+use App\Http\Controllers\Requests\Api\Seccion\UpdateSeccionRequest as SeccionUpdateSeccionRequest;
 use App\Models\Seccion;
 use Illuminate\Http\Request;
 
@@ -37,14 +37,14 @@ class SeccionController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreSeccionRequest $request)
+    public function store(SeccionStoreSeccionRequest $request)
     {
         try {
-            return $this->create($request->all());
-            // return response()->json([
-            //     'status' => true,
-            //     'message' => "Año creado correctamente"
-            // ], 200);
+            Seccion::create($request->all());
+            return response()->json([
+                'status' => true,
+                'message' => "Sección creada correctamente"
+            ], 200);
         } catch (\Exception $e) {
             return response()->json([
                 'status' => false,
@@ -80,10 +80,14 @@ class SeccionController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateSeccionRequest $request, string $id)
+    public function update(SeccionUpdateSeccionRequest $request, string $id)
     {
         try {
-            return $this->update($request, $id);
+            Seccion::find($id)->update($request->all());
+            return response()->json([
+                'status' => true,
+                'message' => "Sección actualizada correctamente"
+            ], 200);
         } catch (\Exception $e) {
             return response()->json([
                 'status' => false,

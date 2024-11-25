@@ -38,7 +38,7 @@ class DocumentoController extends Controller
     public function store(Request $request)
     {
         try {
-            return $this->create($request->all());
+            Documento::create($request->all());
             return response()->json([
                 'status' => true,
                 'message' => "Documento creado correctamente"

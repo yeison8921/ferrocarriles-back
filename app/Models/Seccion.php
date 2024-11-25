@@ -22,11 +22,6 @@ class Seccion extends Model
         'nombre',
     ];
 
-    public function modulos()
-    {
-        return $this->hasMany(Modulo::class);
-    }
-
     public function categorias()
     {
         return $this->hasMany(Categoria::class)->whereNull('categoria_id');

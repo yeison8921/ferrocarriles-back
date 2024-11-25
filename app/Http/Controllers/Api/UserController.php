@@ -14,7 +14,8 @@ class UserController extends Controller
     public function index()
     {
         try {
-            $records = User::all();
+            $records =
+                User::with('rol')->get();
             return response()->json($records);
         } catch (\Exception $e) {
             return response()->json([
@@ -67,7 +68,11 @@ class UserController extends Controller
     public function update(string $id, Request $request)
     {
         try {
-            User::find($id)->update($request->all());
+            $user = User::find($id);
+            $user->name = $request->name;
+            $user->email = $request->email;
+            $user->rol_id = $request->rol_id;
+            $user->save();
             return response()->json([
                 'status' => true,
                 'message' => "Usuario actualizado correctamente",
@@ -88,6 +93,10 @@ class UserController extends Controller
         try {
             $record = User::find($id);
             $record->delete();
+            return response()->json([
+                'status' => true,
+                'message' => "Usuario eliminado correctamente",
+            ], 200);
         } catch (\Exception $e) {
             return response()->json([
                 'status' => false,
