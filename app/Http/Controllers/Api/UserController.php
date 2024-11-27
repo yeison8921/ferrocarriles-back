@@ -104,4 +104,19 @@ class UserController extends Controller
             ], 400);
         }
     }
+
+    public function getUserByToken()
+    {
+        try {
+            return response()->json([
+                'status' => true,
+                'rol' => auth()->user()->rol_id,
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => false,
+                'message' => "Hubo un error al obtener los datos: " . $e->getMessage(),
+            ], 400);
+        }
+    }
 }

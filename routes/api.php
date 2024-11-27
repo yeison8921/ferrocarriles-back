@@ -18,8 +18,8 @@ Route::post('register', [LoginController::class, 'register']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('auth/logout', [LoginController::class, 'logout']);
+    Route::get('users/getUserByToken', [UserController::class, 'getUserByToken']);
     Route::apiResource('users', UserController::class);
-
     Route::apiResource('areas', AreaController::class);
     Route::apiResource('secciones', SeccionController::class);
     Route::apiResource('categorias', CategoriaController::class);

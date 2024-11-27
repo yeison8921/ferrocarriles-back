@@ -97,8 +97,4 @@ class LoginController extends Controller
             'message' => 'Sesión cerrada correctamente',
         ], 200);
     }
-    public function test()
-    {
-        return 'test';
-    }
 }
