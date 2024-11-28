@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -116,6 +117,42 @@ class UserController extends Controller
             return response()->json([
                 'status' => false,
                 'message' => "Hubo un error al obtener los datos: " . $e->getMessage(),
+            ], 400);
+        }
+    }
+
+    public function checkCurrentPassword(Request $request)
+    {
+        $user = auth()->user();
+
+        if (Hash::check($request->password, $user->password)) {
+            return response()->json([
+                'status' => true,
+                'message' => 'Contraseña correcta'
+            ], 200);
+        } else {
+            return response()->json([
+                'status' => false,
+                'message' => 'Contraseña incorrecta'
+            ], 200);
+        }
+    }
+
+    public function updatePassword(Request $request)
+    {
+        try {
+            $user = auth()->user();
+            $user->password = Hash::make($request->password);
+            $user->save();
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Contraseña actualizada correctamente'
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => false,
+                'message' => "Hubo un error al actualizar la contraseña: " . $e->getMessage(),
             ], 400);
         }
     }
