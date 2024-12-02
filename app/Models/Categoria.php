@@ -41,8 +41,21 @@ class Categoria extends Model
         return $this->categorias()->with('categoriasRecursive');
     }
 
-    // public function categoria()
-    // {
-    //     return $this->hasOne(Categoria::class);
-    // }
+    public function parentCategory()
+    {
+        return $this->belongsTo(Categoria::class, 'categoria_id');
+    }
+
+    public function getAllParents()
+    {
+        $parents = collect();
+
+        $currentParent = $this->parentCategory;
+        while ($currentParent) {
+            $parents->push($currentParent);
+            $currentParent = $currentParent->parentCategory;
+        }
+
+        return $parents->sortBy('id')->values();
+    }
 }

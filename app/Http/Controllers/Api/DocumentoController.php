@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Mail\DocumentUploadEmail;
+use App\Models\Categoria;
 use App\Models\Documento;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class DocumentoController extends Controller
 {
@@ -117,9 +120,23 @@ class DocumentoController extends Controller
     public function addMultipleDocuments(Request $request)
     {
 
+
+        $category = Categoria::find($request->categoria_id);
+        $allParents = $category->getAllParents();
+
+        $concatCategories = '';
+
+        foreach ($allParents as $parent) {
+            $concatCategories .= $parent->nombre . ' -> ';
+        }
+
+        $concatCategories .= $category->nombre;
+
         $allInserted = true;
 
         try {
+
+            $arrayDocumentNames = [];
             $path = public_path('storage/' . $request->categoria_id);
             if (!file_exists($path)) {
                 mkdir($path, 0755, true); // Crea la carpeta si no existe
@@ -127,19 +144,15 @@ class DocumentoController extends Controller
 
             foreach ($request->file('files') as $file) {
                 $nombreDocumento = $file->getClientOriginalName();
-
+                array_push($arrayDocumentNames, $nombreDocumento);
                 $file->move($path, $nombreDocumento);
-
-                // $file->storeAs('public/' . $request->categoria_id, $nombreDocumento);
-
-                // $documento->storeAs('public/ilc_adjunto/' . $request->fuente_id . '/uri_adjunto', $nombreDocumento);
-                // $documento->storeAs('public/ilc_adjunto/' . $request->fuente_id . '/uri_adjunto', $nombreDocumento);
                 Documento::create([
                     'categoria_id' => $request->categoria_id,
                     'nombre' => $nombreDocumento,
                     'url' => url('/') . '/storage/' .  $request->categoria_id . '/' . $nombreDocumento
                 ]);
             }
+            $this->sendEmail($concatCategories, $arrayDocumentNames);
         } catch (\Exception $e) {
             $allInserted = false;
         }
@@ -157,5 +170,15 @@ class DocumentoController extends Controller
                 'message' => "Hubo un error al almacenados los documentos: " . $e->getMessage(),
             ], 400);
         }
+    }
+
+    public function sendEmail($concatCategories, $arrayDocumentNames)
+    {
+        $data = [
+            'concatCategories' => $concatCategories,
+            'arrayDocumentNames' => $arrayDocumentNames
+        ];
+
+        Mail::to("yeison8921@gmail.com")->send(new DocumentUploadEmail($data));
     }
 }

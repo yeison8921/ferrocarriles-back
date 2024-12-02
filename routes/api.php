@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\PaginaController;
 use App\Http\Controllers\Api\RolController;
 use App\Http\Controllers\Api\SeccionController;
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\DocumentUploadEmailController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -35,4 +36,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('directorios', DirectorioController::class);
     Route::apiResource('roles', RolController::class);
     Route::post('roles/select', [RolController::class, 'select']);
+    Route::get('send-document-upload-email', [DocumentUploadEmailController::class, 'sendEmail']);
 });
