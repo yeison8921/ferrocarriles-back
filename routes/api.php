@@ -10,8 +10,8 @@ use App\Http\Controllers\Api\PaginaController;
 use App\Http\Controllers\Api\RolController;
 use App\Http\Controllers\Api\SeccionController;
 use App\Http\Controllers\Api\UserController;
-use App\Http\Controllers\DocumentUploadEmailController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Route;
 
 Route::post('auth/login', [LoginController::class, 'login']);
@@ -28,6 +28,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('secciones', SeccionController::class);
     Route::apiResource('categorias', CategoriaController::class);
     Route::post('categorias/addMultipleCategories', [CategoriaController::class, 'addMultipleCategories']);
+    Route::get('/documentos/download/{categoryId}/{filename}', function ($categoryId, $filename) {
+        $path = storage_path('app/private/' . $categoryId . '/' . $filename);
+        return Response::download($path, $filename);
+    });
     Route::apiResource('documentos', DocumentoController::class);
     Route::post('documentos/addMultipleDocuments', [DocumentoController::class, 'addMultipleDocuments']);
     Route::apiResource('paginas', PaginaController::class);
@@ -36,5 +40,4 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('directorios', DirectorioController::class);
     Route::apiResource('roles', RolController::class);
     Route::post('roles/select', [RolController::class, 'select']);
-    Route::get('send-document-upload-email', [DocumentUploadEmailController::class, 'sendEmail']);
 });

@@ -137,19 +137,15 @@ class DocumentoController extends Controller
         try {
 
             $arrayDocumentNames = [];
-            $path = public_path('storage/' . $request->categoria_id);
-            if (!file_exists($path)) {
-                mkdir($path, 0755, true); // Crea la carpeta si no existe
-            }
 
             foreach ($request->file('files') as $file) {
                 $nombreDocumento = $file->getClientOriginalName();
                 array_push($arrayDocumentNames, $nombreDocumento);
-                $file->move($path, $nombreDocumento);
+                $file->storeAs($request->categoria_id, $nombreDocumento, "private");
                 Documento::create([
                     'categoria_id' => $request->categoria_id,
                     'nombre' => $nombreDocumento,
-                    'url' => url('/') . '/storage/' .  $request->categoria_id . '/' . $nombreDocumento
+                    'url' => $request->categoria_id . '/' . $nombreDocumento
                 ]);
             }
             $this->sendEmail($concatCategories, $arrayDocumentNames);
