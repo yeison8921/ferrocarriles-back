@@ -19,8 +19,8 @@ class RolSeeder extends Seeder
          */
 
         $roles = [
-            ['nombre' => 'General'],
             ['nombre' => 'Administrador'],
+            ['nombre' => 'General'],
         ];
 
         DB::table('roles')->insert($roles);
