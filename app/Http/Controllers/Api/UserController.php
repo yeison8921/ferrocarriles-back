@@ -156,4 +156,23 @@ class UserController extends Controller
             ], 400);
         }
     }
+
+    public function resetPassword(Request $request)
+    {
+        try {
+            $user = User::find($request->id);
+            $user->password = Hash::make($request->password);
+            $user->save();
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Contraseña actualizada correctamente'
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => false,
+                'message' => "Hubo un error al restablecer la contraseña: " . $e->getMessage(),
+            ], 400);
+        }
+    }
 }

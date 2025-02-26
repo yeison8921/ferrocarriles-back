@@ -57,11 +57,17 @@ class PaginaController extends Controller
     public function show(string $id)
     {
         try {
-            $record = Pagina::with(
+            $record = Pagina::with([
                 'directorios.areas.funcionarios',
                 'secciones.categorias.categoriasRecursive.documentos',
                 'secciones.categorias.documentos',
-            )->find($id);
+                'secciones.categorias' => function ($query) {
+                    $query->orderBy('nombre', 'asc');
+                },
+                'secciones.categorias.categoriasRecursive' => function ($query) {
+                    $query->orderBy('nombre', 'asc');
+                },
+            ])->find($id);
             return $record;
         } catch (\Exception $e) {
             return response()->json([

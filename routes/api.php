@@ -20,6 +20,7 @@ Route::post('register', [LoginController::class, 'register']);
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('users/checkCurrentPassword', [UserController::class, 'checkCurrentPassword']);
     Route::post('users/updatePassword', [UserController::class, 'updatePassword']);
+    Route::post('users/resetPassword', [UserController::class, 'resetPassword']);
 
     Route::get('auth/logout', [LoginController::class, 'logout']);
     Route::get('users/getUserByToken', [UserController::class, 'getUserByToken']);
