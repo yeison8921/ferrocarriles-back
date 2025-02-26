@@ -148,7 +148,7 @@ class DocumentoController extends Controller
                     'url' => $request->categoria_id . '/' . $nombreDocumento
                 ]);
             }
-            $this->sendEmail($concatCategories, $arrayDocumentNames);
+            // $this->sendEmail($concatCategories, $arrayDocumentNames);
         } catch (\Exception $e) {
             $allInserted = false;
         }

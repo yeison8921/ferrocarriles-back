@@ -20,7 +20,7 @@ class UserSeeder extends Seeder
          */
 
         $users = [
-            ['name' => 'Yeison Briceño', 'email' => 'yeison@mail.com', 'password' => Hash::make('123'), 'rol_id' => 1],
+            ['name' => 'User Admin', 'email' => 'admin@fps.gov.co', 'password' => Hash::make('F634N%Q(Gl8G'), 'rol_id' => 1],
             ['name' => 'Angelica Campo Araujo', 'email' => 'angelica.campo@fps.gov.co', 'password' => Hash::make('Ferrocarriles2024*'), 'rol_id' => 2],
             ['name' => 'Abigail Martinez Gonzalez', 'email' => 'abigail.martinez@fps.gov.co', 'password' => Hash::make('Ferrocarriles2024*'), 'rol_id' => 2],
             ['name' => 'Alberto Gutierrez', 'email' => 'alberto.gutierrez@fps.gov.co', 'password' => Hash::make('Ferrocarriles2024*'), 'rol_id' => 2],
