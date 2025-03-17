@@ -119,8 +119,6 @@ class DocumentoController extends Controller
 
     public function addMultipleDocuments(Request $request)
     {
-
-
         $category = Categoria::find($request->categoria_id);
         $allParents = $category->getAllParents();
 
@@ -148,7 +146,7 @@ class DocumentoController extends Controller
                     'url' => $request->categoria_id . '/' . $nombreDocumento
                 ]);
             }
-            // $this->sendEmail($concatCategories, $arrayDocumentNames);
+            $this->sendEmail($concatCategories, $arrayDocumentNames);
         } catch (\Exception $e) {
             $allInserted = false;
         }
@@ -175,6 +173,6 @@ class DocumentoController extends Controller
             'arrayDocumentNames' => $arrayDocumentNames
         ];
 
-        Mail::to("yeison8921@gmail.com")->send(new DocumentUploadEmail($data));
+        Mail::to("todos@fps.gov.co")->send(new DocumentUploadEmail($data));
     }
 }
